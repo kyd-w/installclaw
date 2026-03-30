@@ -1,0 +1,49 @@
+# Go package configuration (optional)
+# Used by: search, info commands
+# Version info is fetched dynamically via AI/registry lookup
+
+id: go
+name: Go
+description: Go programming language
+homepage: https://golang.org
+license: BSD-3-Clause
+category: runtime
+keywords:
+  - go
+  - golang
+
+# Install methods (platform-specific)
+installMethods:
+  - type: package
+    name: Winget (Windows)
+    platform:
+      os: [windows]
+    commands:
+      - winget install GoLang.Go
+
+  - type: package
+    name: Homebrew (macOS)
+    platform:
+      os: [darwin]
+    commands:
+      - brew install go
+
+  - type: package
+    name: APT (Debian/Ubuntu)
+    platform:
+      os: [linux]
+    commands:
+      - apt-get update
+      - apt-get install -y golang-go
+    sudoRequired: true
+
+# Optional: Go environment configuration
+configTemplates:
+  - id: go-env
+    name: Go Environment
+    targetPath: ~/.bashrc.d/go.sh
+    content: |
+      export GOPATH=$HOME/go
+      export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+      export GOPROXY=https://goproxy.cn,direct
+    overwrite: false

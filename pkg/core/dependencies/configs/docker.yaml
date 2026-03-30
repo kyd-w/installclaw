@@ -1,0 +1,113 @@
+# Docker dependency configuration
+id: docker
+name: Docker
+description: Container runtime and platform
+homepage: https://www.docker.com
+license: Apache-2.0
+
+provides:
+  - docker
+  - docker-compose
+
+requirements:
+  os:
+    - linux
+    - darwin
+    - windows
+
+platforms:
+  linux:
+    distros:
+      debian:
+        package_manager: apt
+        install_methods:
+          - type: official_repo
+            priority: 1
+            recommended: true
+            commands:
+              - sudo apt-get update
+              - sudo apt-get install -y ca-certificates curl gnupg
+              - sudo install -m 0755 -d /etc/apt/keyrings
+              - curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+              - sudo chmod a+r /etc/apt/keyrings/docker.gpg
+              - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+              - sudo apt-get update
+              - sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+            verify_cmd: docker --version
+            sudo_required: true
+      ubuntu:
+        package_manager: apt
+        install_methods:
+          - type: official_repo
+            priority: 1
+            recommended: true
+            commands:
+              - sudo apt-get update
+              - sudo apt-get install -y ca-certificates curl gnupg
+              - sudo install -m 0755 -d /etc/apt/keyrings
+              - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+              - sudo chmod a+r /etc/apt/keyrings/docker.gpg
+              - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+              - sudo apt-get update
+              - sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+            verify_cmd: docker --version
+            sudo_required: true
+      centos:
+        package_manager: yum
+        version_limits:
+          - os_version: "<=7"
+            max_software_version: "latest"
+            reason: "Docker CE supports CentOS 7, but CentOS 7 is EOL"
+            workaround: "Upgrade to Rocky Linux 8+ or use Podman as alternative"
+        install_methods:
+          - type: official_repo
+            priority: 1
+            commands:
+              - sudo yum install -y yum-utils
+              - sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+              - sudo yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+              - sudo systemctl start docker
+              - sudo systemctl enable docker
+            verify_cmd: docker --version
+            sudo_required: true
+      fedora:
+        package_manager: dnf
+        install_methods:
+          - type: official_repo
+            priority: 1
+            commands:
+              - sudo dnf -y install dnf-plugins-core
+              - sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+              - sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+              - sudo systemctl start docker
+              - sudo systemctl enable docker
+            verify_cmd: docker --version
+            sudo_required: true
+
+  darwin:
+    install_methods:
+      - type: homebrew
+        priority: 1
+        recommended: true
+        commands:
+          - brew install --cask docker
+        verify_cmd: docker --version
+        sudo_required: false
+        notes: "Installs Docker Desktop for Mac"
+
+  windows:
+    install_methods:
+      - type: winget
+        priority: 1
+        recommended: true
+        commands:
+          - winget install Docker.DockerDesktop --accept-source-agreements --accept-package-agreements
+        verify_cmd: docker --version
+        sudo_required: false
+        notes: "Installs Docker Desktop for Windows"
+      - type: chocolatey
+        priority: 2
+        commands:
+          - choco install docker-desktop -y
+        verify_cmd: docker --version
+        sudo_required: false

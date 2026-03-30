@@ -1,0 +1,122 @@
+# Git dependency configuration
+id: git
+name: Git
+description: Distributed version control system
+homepage: https://git-scm.com
+license: GPL-2.0
+
+provides:
+  - git
+
+# Git has minimal system requirements
+requirements:
+  min_versions: {}
+
+platforms:
+  linux:
+    distros:
+      debian:
+        package_manager: apt
+        install_methods:
+          - type: package_manager
+            priority: 1
+            recommended: true
+            commands:
+              - sudo apt-get update
+              - sudo apt-get install -y git
+            verify_cmd: git --version
+            sudo_required: true
+      ubuntu:
+        package_manager: apt
+        install_methods:
+          - type: ppa
+            priority: 1
+            recommended: true
+            commands:
+              - sudo add-apt-repository -y ppa:git-core/ppa
+              - sudo apt-get update
+              - sudo apt-get install -y git
+            verify_cmd: git --version
+            sudo_required: true
+          - type: package_manager
+            priority: 2
+            commands:
+              - sudo apt-get update
+              - sudo apt-get install -y git
+            verify_cmd: git --version
+            sudo_required: true
+      centos:
+        package_manager: yum
+        install_methods:
+          - type: package_manager
+            priority: 1
+            commands:
+              - sudo yum install -y git
+            verify_cmd: git --version
+            sudo_required: true
+      fedora:
+        package_manager: dnf
+        install_methods:
+          - type: package_manager
+            priority: 1
+            commands:
+              - sudo dnf install -y git
+            verify_cmd: git --version
+            sudo_required: true
+      arch:
+        package_manager: pacman
+        install_methods:
+          - type: package_manager
+            priority: 1
+            commands:
+              - sudo pacman -S --noconfirm git
+            verify_cmd: git --version
+            sudo_required: true
+      alpine:
+        package_manager: apk
+        install_methods:
+          - type: package_manager
+            priority: 1
+            commands:
+              - apk add --no-cache git
+            verify_cmd: git --version
+            sudo_required: false
+
+  darwin:
+    install_methods:
+      - type: homebrew
+        priority: 1
+        recommended: true
+        commands:
+          - brew install git
+        verify_cmd: git --version
+        sudo_required: false
+      - type: xcode
+        priority: 2
+        commands:
+          - xcode-select --install
+        verify_cmd: git --version
+        sudo_required: false
+        notes: "Installs Xcode Command Line Tools which includes git"
+
+  windows:
+    install_methods:
+      - type: winget
+        priority: 1
+        recommended: true
+        commands:
+          - winget install Git.Git --accept-source-agreements --accept-package-agreements
+        verify_cmd: git --version
+        sudo_required: false
+      - type: chocolatey
+        priority: 2
+        commands:
+          - choco install git -y
+        verify_cmd: git --version
+        sudo_required: false
+      - type: scoop
+        priority: 3
+        commands:
+          - scoop install git
+        verify_cmd: git --version
+        sudo_required: false

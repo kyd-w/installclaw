@@ -1,0 +1,70 @@
+# Universal Smart Installer - Embedded Default Configuration
+# 通用智能安装器 - 内置默认配置
+#
+# To customize, create installer.yaml in:
+#   - Current directory: ./installer.yaml
+#   - Executable directory: <exe-dir>/installer.yaml
+#   - Or use: --config /path/to/config.yaml
+#
+# Environment variables are supported: ${ENV_VAR_NAME}
+
+# AI Provider Configuration
+ai:
+  primary: openai
+
+  openai:
+    api_key: ${OPENAI_API_KEY}
+    model: gpt-4o-mini
+    base_url: https://api.openai.com/v1
+
+  claude:
+    api_key: ${ANTHROPIC_API_KEY}
+    model: claude-3-haiku-20240307
+    base_url: https://api.anthropic.com/v1
+
+  ollama:
+    base_url: http://localhost:11434
+    model: llama3
+
+# Security Configuration
+security:
+  min_github_stars: 200
+  allow_untrusted: false
+  verify_checksum: true
+  verify_signature: false
+
+# Installation Configuration
+install:
+  install_dir: /usr/local
+  bin_dir: /usr/local/bin
+  config_dir: ~/.config
+  cache_dir: ~/.cache/installer
+  timeout: 30
+  skip_dependencies: false
+  force_reinstall: false
+
+# Cache Configuration
+cache:
+  enabled: true
+  ttl: 24
+  max_size: 500
+
+# Logging Configuration
+logging:
+  level: debug
+  file: ""
+  color: true
+
+# Trusted Domains
+trusted_domains: []
+
+# Web Search Configuration
+web_search:
+  primary: duckduckgo  # Primary search engine: "duckduckgo" or "tavily"
+
+  tavily:
+    api_key: ${TAVILY_API_KEY}  # Set via environment variable or directly
+
+  duckduckgo:
+    # No API key required for DuckDuckGo Instant Answer API
+    enabled: true

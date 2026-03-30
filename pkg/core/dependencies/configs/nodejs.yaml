@@ -1,0 +1,190 @@
+# Node.js dependency configuration
+id: nodejs
+name: Node.js
+description: JavaScript runtime built on Chrome's V8 engine
+homepage: https://nodejs.org
+license: MIT
+
+# What this package provides
+provides:
+  - node
+  - npm
+  - npx
+
+# Environment requirements by version
+version_requirements:
+  "22+":
+    min_versions:
+      glibc: "2.28"
+  "20+":
+    min_versions:
+      glibc: "2.28"
+  "18+":
+    min_versions:
+      glibc: "2.28"
+  "16.x":
+    min_versions:
+      glibc: "2.17"
+  "14.x":
+    min_versions:
+      glibc: "2.17"
+
+# Platform-specific configuration
+platforms:
+  linux:
+    distros:
+      debian:
+        package_manager: apt
+        install_methods:
+          - type: nodesource
+            priority: 1
+            recommended: true
+            commands:
+              - curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+              - sudo apt-get install -y nodejs
+            verify_cmd: node --version
+            sudo_required: true
+      ubuntu:
+        package_manager: apt
+        install_methods:
+          - type: nodesource
+            priority: 1
+            recommended: true
+            commands:
+              - curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+              - sudo apt-get install -y nodejs
+            verify_cmd: node --version
+            sudo_required: true
+      centos:
+        package_manager: yum
+        version_limits:
+          - os_version: "<=7"
+            max_software_version: "16.x"
+            reason: "CentOS 7 has glibc 2.17, Node.js 18+ requires glibc 2.28"
+            workaround: "Install Node.js 16.x via nvm, or upgrade to Rocky Linux/AlmaLinux 8+"
+        install_methods:
+          - type: nodesource
+            priority: 1
+            commands:
+              - curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
+              - sudo yum install -y nodejs
+            verify_cmd: node --version
+            sudo_required: true
+            notes: "Installs Node.js 16.x for CentOS 7 compatibility"
+      rhel:
+        package_manager: yum
+        install_methods:
+          - type: nodesource
+            priority: 1
+            commands:
+              - curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
+              - sudo yum install -y nodejs
+            verify_cmd: node --version
+            sudo_required: true
+      fedora:
+        package_manager: dnf
+        install_methods:
+          - type: nodesource
+            priority: 1
+            commands:
+              - curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
+              - sudo dnf install -y nodejs
+            verify_cmd: node --version
+            sudo_required: true
+      rocky:
+        package_manager: dnf
+        install_methods:
+          - type: nodesource
+            priority: 1
+            commands:
+              - curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
+              - sudo dnf install -y nodejs
+            verify_cmd: node --version
+            sudo_required: true
+      almalinux:
+        package_manager: dnf
+        install_methods:
+          - type: nodesource
+            priority: 1
+            commands:
+              - curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
+              - sudo dnf install -y nodejs
+            verify_cmd: node --version
+            sudo_required: true
+      amazon:
+        package_manager: yum
+        install_methods:
+          - type: nodesource
+            priority: 1
+            commands:
+              - curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
+              - sudo yum install -y nodejs
+            verify_cmd: node --version
+            sudo_required: true
+      arch:
+        package_manager: pacman
+        install_methods:
+          - type: package_manager
+            priority: 1
+            commands:
+              - sudo pacman -S --noconfirm nodejs npm
+            verify_cmd: node --version
+            sudo_required: true
+      alpine:
+        package_manager: apk
+        install_methods:
+          - type: package_manager
+            priority: 1
+            commands:
+              - apk add --no-cache nodejs npm
+            verify_cmd: node --version
+            sudo_required: false
+    # Generic Linux fallback using nvm
+    install_methods:
+      - type: nvm
+        priority: 2
+        commands:
+          - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+          - source ~/.nvm/nvm.sh && nvm install --lts
+        verify_cmd: node --version
+        sudo_required: false
+        notes: "Installs nvm and Node.js LTS version"
+
+  darwin:
+    install_methods:
+      - type: homebrew
+        priority: 1
+        recommended: true
+        commands:
+          - brew install node
+        verify_cmd: node --version
+        sudo_required: false
+      - type: nvm
+        priority: 2
+        commands:
+          - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+          - source ~/.nvm/nvm.sh && nvm install --lts
+        verify_cmd: node --version
+        sudo_required: false
+
+  windows:
+    install_methods:
+      - type: winget
+        priority: 1
+        recommended: true
+        commands:
+          - winget install OpenJS.NodeJS.LTS --accept-source-agreements --accept-package-agreements
+        verify_cmd: node --version
+        sudo_required: false
+      - type: chocolatey
+        priority: 2
+        commands:
+          - choco install nodejs-lts -y
+        verify_cmd: node --version
+        sudo_required: false
+      - type: scoop
+        priority: 3
+        commands:
+          - scoop install nodejs-lts
+        verify_cmd: node --version
+        sudo_required: false

@@ -1,0 +1,148 @@
+# Go (Golang) dependency configuration
+id: go
+name: Go
+description: Go programming language
+homepage: https://golang.org
+license: BSD-3-Clause
+
+provides:
+  - go
+  - gofmt
+
+# Go has minimal system dependencies
+requirements:
+  min_versions: {}
+
+platforms:
+  linux:
+    distros:
+      debian:
+        package_manager: apt
+        install_methods:
+          - type: official_tarball
+            priority: 1
+            recommended: true
+            commands:
+              - curl -fsSL https://go.dev/dl/go1.22.0.linux-amd64.tar.gz | sudo tar -C /usr/local -xzf -
+              - export PATH=$PATH:/usr/local/go/bin
+            verify_cmd: go version
+            sudo_required: true
+            notes: "Installs from official tarball"
+          - type: package_manager
+            priority: 2
+            commands:
+              - sudo apt-get update
+              - sudo apt-get install -y golang-go
+            verify_cmd: go version
+            sudo_required: true
+            notes: "May install older version from distro repos"
+      ubuntu:
+        package_manager: apt
+        install_methods:
+          - type: official_tarball
+            priority: 1
+            recommended: true
+            commands:
+              - curl -fsSL https://go.dev/dl/go1.22.0.linux-amd64.tar.gz | sudo tar -C /usr/local -xzf -
+              - export PATH=$PATH:/usr/local/go/bin
+            verify_cmd: go version
+            sudo_required: true
+          - type: package_manager
+            priority: 2
+            commands:
+              - sudo apt-get update
+              - sudo apt-get install -y golang-go
+            verify_cmd: go version
+            sudo_required: true
+      centos:
+        package_manager: yum
+        install_methods:
+          - type: official_tarball
+            priority: 1
+            recommended: true
+            commands:
+              - curl -fsSL https://go.dev/dl/go1.22.0.linux-amd64.tar.gz | sudo tar -C /usr/local -xzf -
+              - export PATH=$PATH:/usr/local/go/bin
+            verify_cmd: go version
+            sudo_required: true
+          - type: package_manager
+            priority: 2
+            commands:
+              - sudo yum install -y golang
+            verify_cmd: go version
+            sudo_required: true
+            notes: "May install older version"
+      fedora:
+        package_manager: dnf
+        install_methods:
+          - type: official_tarball
+            priority: 1
+            recommended: true
+            commands:
+              - curl -fsSL https://go.dev/dl/go1.22.0.linux-amd64.tar.gz | sudo tar -C /usr/local -xzf -
+              - export PATH=$PATH:/usr/local/go/bin
+            verify_cmd: go version
+            sudo_required: true
+          - type: package_manager
+            priority: 2
+            commands:
+              - sudo dnf install -y golang
+            verify_cmd: go version
+            sudo_required: true
+      arch:
+        package_manager: pacman
+        install_methods:
+          - type: package_manager
+            priority: 1
+            recommended: true
+            commands:
+              - sudo pacman -S --noconfirm go
+            verify_cmd: go version
+            sudo_required: true
+      alpine:
+        package_manager: apk
+        install_methods:
+          - type: package_manager
+            priority: 1
+            commands:
+              - apk add --no-cache go
+            verify_cmd: go version
+            sudo_required: false
+
+  darwin:
+    install_methods:
+      - type: homebrew
+        priority: 1
+        recommended: true
+        commands:
+          - brew install go
+        verify_cmd: go version
+        sudo_required: false
+      - type: official_tarball
+        priority: 2
+        commands:
+          - curl -fsSL https://go.dev/dl/go1.22.0.darwin-amd64.tar.gz | sudo tar -C /usr/local -xzf -
+        verify_cmd: go version
+        sudo_required: true
+
+  windows:
+    install_methods:
+      - type: winget
+        priority: 1
+        recommended: true
+        commands:
+          - winget install GoLang.Go --accept-source-agreements --accept-package-agreements
+        verify_cmd: go version
+        sudo_required: false
+      - type: chocolatey
+        priority: 2
+        commands:
+          - choco install golang -y
+        verify_cmd: go version
+        sudo_required: false
+      - type: scoop
+        priority: 3
+        commands:
+          - scoop install go
+        verify_cmd: go version
+        sudo_required: false

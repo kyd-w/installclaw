@@ -1,0 +1,50 @@
+# Python package configuration (optional)
+# Used by: search, info commands
+# Version info is fetched dynamically via AI/registry lookup
+
+id: python
+name: Python
+description: Python programming language interpreter
+homepage: https://www.python.org
+license: PSF-2.0
+category: runtime
+keywords:
+  - python
+  - python3
+  - py
+
+# Install methods (platform-specific)
+installMethods:
+  - type: package
+    name: Winget (Windows)
+    platform:
+      os: [windows]
+    commands:
+      - winget install Python.Python.3.12
+
+  - type: package
+    name: Homebrew (macOS)
+    platform:
+      os: [darwin]
+    commands:
+      - brew install python@3.12
+
+  - type: package
+    name: APT (Debian/Ubuntu)
+    platform:
+      os: [linux]
+    commands:
+      - apt-get update
+      - apt-get install -y python3 python3-pip
+    sudoRequired: true
+
+# Optional: PIP configuration template
+configTemplates:
+  - id: pip-conf
+    name: PIP Configuration
+    targetPath: ~/.pip/pip.conf
+    content: |
+      [global]
+      index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+      trusted-host = pypi.tuna.tsinghua.edu.cn
+    overwrite: false

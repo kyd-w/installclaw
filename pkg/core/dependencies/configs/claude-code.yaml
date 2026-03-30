@@ -1,0 +1,46 @@
+# Claude Code dependency configuration
+id: claude-code
+name: Claude Code
+description: Claude CLI tool for AI-powered development
+homepage: https://claude.ai
+license: Proprietary
+
+provides:
+  - claude
+
+# Claude Code requires Node.js
+dependencies:
+  - id: nodejs
+    version: ">=18.0.0"
+    type: required
+
+platforms:
+  linux:
+    install_methods:
+      - type: npm
+        priority: 1
+        recommended: true
+        commands:
+          - npm install -g @anthropic-ai/claude-code
+        verify_cmd: claude --version
+        sudo_required: false
+
+  darwin:
+    install_methods:
+      - type: npm
+        priority: 1
+        recommended: true
+        commands:
+          - npm install -g @anthropic-ai/claude-code
+        verify_cmd: claude --version
+        sudo_required: false
+
+  windows:
+    install_methods:
+      - type: npm
+        priority: 1
+        recommended: true
+        commands:
+          - npm install -g @anthropic-ai/claude-code
+        verify_cmd: claude --version
+        sudo_required: false

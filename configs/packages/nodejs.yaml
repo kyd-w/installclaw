@@ -1,0 +1,50 @@
+# Node.js package configuration (optional)
+# Used by: search, info commands
+# Version info is fetched dynamically via AI/registry lookup
+
+id: nodejs
+name: Node.js
+description: JavaScript runtime built on Chrome's V8 JavaScript engine
+homepage: https://nodejs.org
+license: MIT
+category: runtime
+keywords:
+  - node
+  - nodejs
+  - javascript
+  - js
+
+# Install methods (platform-specific)
+installMethods:
+  - type: package
+    name: Winget (Windows)
+    platform:
+      os: [windows]
+    commands:
+      - winget install OpenJS.NodeJS.LTS
+
+  - type: package
+    name: Homebrew (macOS)
+    platform:
+      os: [darwin]
+    commands:
+      - brew install node
+
+  - type: package
+    name: APT (Debian/Ubuntu)
+    platform:
+      os: [linux]
+    commands:
+      - curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+      - apt-get install -y nodejs
+    sudoRequired: true
+
+# Optional: NPM configuration template
+configTemplates:
+  - id: npmrc
+    name: NPM Configuration
+    targetPath: ~/.npmrc
+    content: |
+      registry=https://registry.npmmirror.com
+    overwrite: false
+    backupExisting: true

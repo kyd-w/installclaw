@@ -1,0 +1,123 @@
+# =========================
+# Binaries & Build Artifacts
+# =========================
+bin/
+build/
+dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.syso
+
+# Project binaries
+/installclaw
+/installclaw-test
+/universal-installer
+/installer
+cmd/**/workspace
+
+# =========================
+# Go
+# =========================
+go.sum
+go.work
+go.work.sum
+
+# =========================
+# Secrets & Config
+# =========================
+# Ignore actual secrets, keep templates
+.env
+.env.local
+.env.*.local
+config/config.json
+config.json
+
+# Keep example files
+!.env.example
+!docs/config.example.json
+!config.example.json
+
+# =========================
+# Test & Coverage
+# =========================
+coverage.txt
+coverage.html
+coverage/
+*.coverprofile
+
+# =========================
+# IDE & Editors
+# =========================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# =========================
+# OS Generated
+# =========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# =========================
+# Project Specific
+# =========================
+.installclaw/
+.claude/
+sessions/
+ralph/
+.ralph/
+tasks/
+workspace/
+.cache/
+
+# Download cache
+.cache/
+downloads/
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# =========================
+# Documentation
+# =========================
+# Keep README but ignore generated docs
+# docs/_build/
+
+# =========================
+# Package Managers
+# =========================
+node_modules/
+vendor/
+
+# =========================
+# Archive Files
+# =========================
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
